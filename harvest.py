@@ -135,6 +135,23 @@ def make_melons(melon_types):
     return melons
 
 
+def get_melons_from_file(file_path):
+    """ddddd"""
+    all_melon_types = make_melon_types()
+    melon_type_dict = make_melon_type_lookup(all_melon_types)
+    melons = []
+    
+    text = open(file_path)
+    melon_id = 0
+    for line in text:
+        melon_id += 1
+        words = line.split(' ')
+        # ['Shape', '4', 'Color', '8', 'Type', 'yw', 'Harvested', 'By', 'Loyd', 'Field', '#', '47\n']
+        melons.append(Melon(melon_id=melon_id, melon_type=melon_type_dict[words[5]], shape=int(words[1]), color=int(words[3]), field=int(words[-1].strip()), worker=words[-4]))
+    
+    return melons
+        
+
 def get_sellability_report(melons):
     """Given a list of melon object, prints whether each one is sellable."""
 
@@ -149,4 +166,7 @@ def get_sellability_report(melons):
 
 all_melon_types = make_melon_types()
 melons = make_melons(all_melon_types)
+get_sellability_report(melons)
+print("\n")
+melons = get_melons_from_file('harvest_log.txt')
 get_sellability_report(melons)
